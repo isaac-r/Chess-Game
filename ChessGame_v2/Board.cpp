@@ -26,7 +26,7 @@ void Board::create() { // Create a board
 	new_piece = new Queen("Black");
 	board[3][0]->set_piece(new_piece);
 	new_piece = new King("Black");
-	board[4][5]->set_piece(new_piece);
+	board[4][0]->set_piece(new_piece);
 	new_piece = new Bishop("Black");
 	board[5][0]->set_piece(new_piece);
 	new_piece = new Knight("Black");
