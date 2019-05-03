@@ -7,9 +7,11 @@ public:
 	int x, y;
 	Coord() {};
 	Coord(std::string position);
+	Coord(int X, int Y) { x = X, y = Y; }
 	~Coord() {};
 	int get_x() const { return x; };
 	int get_y() const { return y; };
+	bool operator!=(const Coord &position);
 };
 
 #endif

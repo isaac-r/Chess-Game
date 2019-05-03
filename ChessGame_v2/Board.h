@@ -3,6 +3,7 @@
 #include "Square.h"
 #include<iostream>
 #include "Player.h"
+#include "Coord.h"
 
 //
 // Board class
@@ -21,6 +22,8 @@ public:
 	void show();
 	void move(Player player);
 	bool check_path(int x_i, int y_i, int x_f, int y_f);
+	Piece* check_path_2(int x_i, int y_i, int x_f, int y_f);
+	void is_king_in_check();
 };
 
 #endif

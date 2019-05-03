@@ -3,10 +3,11 @@
 #include<string>
 class Player {
 public:
-	std::string colour;
+	std::string colour, name;
 	Player() {};
-	Player(std::string colour) { this->colour = colour; };
+	Player(std::string colour, std::string name) { this->colour = colour; this->name = name; }
 	~Player() {}
-	std::string get_player() { return colour; }
+	std::string get_player_colour() { return colour; }
+	std::string get_player_name() { return name; }
 };
 #endif

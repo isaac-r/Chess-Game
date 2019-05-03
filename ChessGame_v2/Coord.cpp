@@ -55,3 +55,12 @@ Coord::Coord(std::string position) {
 	//std::cout << "Test x: " << x_int << std::endl;
 	//std::cout << "Test y: " << y_int << std::endl;
 }
+
+bool Coord::operator!=(const Coord &position) {
+	if (this->get_x() != position.get_x() && this->get_y() != position.get_y()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

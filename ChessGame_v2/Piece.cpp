@@ -180,7 +180,7 @@ bool Queen::move_piece(std::string colour, int x_1, int y_1, int x_2, int y_2) {
 bool King::move_piece(std::string colour, int x_1, int y_1, int x_2, int y_2) {
 	int dx = x_2 - x_1;
 	int dy = y_2 - y_1;
-	if (abs(dy) == 1 && dx == 0 || dy == 1 && abs(dx) == 1) {
+	if (abs(dy) == 1 && dx == 0 || dy == 0 && abs(dx) == 1) {
 		std::cout << "Temp move allowed for " << colour << " king" << std::endl;
 		return valid_move = true;
 	}
