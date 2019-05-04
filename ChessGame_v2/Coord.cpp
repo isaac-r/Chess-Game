@@ -38,12 +38,12 @@ Coord::Coord(std::string position) {
 		else if (x_input == tolower('H')) {
 			x_int = 7;
 		}
-		else if (position == "moves") {
+		//else if (position == "moves") {
 			// Show the moves to the player for the piece on the selected square 
-			std::cout << "Asking for moves" << std::endl;
+			//std::cout << "Asking for moves" << std::endl;
 			// Need to check this in the range checker
 			//exit(1);
-		}
+		//}
 		else if (position == "quit") {
 			// Show the moves to the player for the piece on the selected square 
 			std::cout << "You gave up?!?" << std::endl;
@@ -56,13 +56,14 @@ Coord::Coord(std::string position) {
 		y_int = y_input - '0' - 1;
 
 		if (x_int < 0 || x_int > 7 || y_int < 0 || y_int > 7) {
-			if (position != "moves") {
+			//if (position != "moves") {
 				std::cout << "Piece is out of range please try again: " << std::endl;
-			}
+			//}
 		}
 
-	} while (x_int < 0 && position != "moves" || x_int > 7 && position != "moves" || 
-		y_int < 0 && position != "moves" || y_int > 7 && position != "moves");
+	}// while (x_int < 0 && position != "moves" || x_int > 7 && position != "moves" || 
+		//y_int < 0 && position != "moves" || y_int > 7 && position != "moves");
+	while (x_int < 0 || x_int > 7  || y_int < 0  || y_int > 7);
 
 	x = x_int;
 	y = y_int;

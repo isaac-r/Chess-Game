@@ -154,11 +154,12 @@ void Board::move(Player player) { // Move a piece on the board
 			std::string start_position;
 
 			Coord pos(start_position);
-			std::string moves = pos.get_input();
+			/*std::string moves = pos.get_input();
 			if (moves == "moves") {
 				//get_allowed_moves;
 				// Then ask the user to re_enter their piece position
-			}
+			}*/
+
 			x_i = pos.get_x();
 			y_i = pos.get_y();
 
@@ -197,11 +198,11 @@ void Board::move(Player player) { // Move a piece on the board
 
 			Coord final_pos(end_position);
 
-			std::string piece_moves = final_pos.get_input();
+			/*std::string piece_moves = final_pos.get_input();
 			if (piece_moves == "moves") {
 				//get_allowed_piece_moves;
 				// Then ask the user to re_enter their final piece position
-			}
+			}*/
 
 			x_f = final_pos.get_x();
 			y_f = final_pos.get_y();
