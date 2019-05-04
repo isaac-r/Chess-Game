@@ -14,7 +14,10 @@ Square::Square(int X, int Y) {
 	// Function "check_occupation(square)" returns boolean for sqaure occupied or not
 }
 Piece* Square::get_piece() const {
-	return piece_name;
+	if (x >= 0 && x < 8 && y >= 0 && y < 8) {
+		return piece_name;
+	}
+	else { return nullptr; }
 }
 std::string Square::get_piece_name() const {
 	return piece_name->get_name();

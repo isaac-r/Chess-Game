@@ -38,10 +38,10 @@ void Board::create() { // Create a board
 	new_piece = new Rook("Black");
 	board[7][0]->set_piece(new_piece);
 
-	/*for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 8; i++) {
 		new_piece = new Pawn("Black");
 		board[i][1]->set_piece(new_piece);
-	}*/
+	}
 	// Set up the white pieces
 	new_piece = new Rook("White");
 	board[0][7]->set_piece(new_piece);
@@ -60,10 +60,10 @@ void Board::create() { // Create a board
 	new_piece = new Rook("White");
 	board[7][7]->set_piece(new_piece);
 
-	/*for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 8; i++) {
 		new_piece = new Pawn("White");
 		board[i][6]->set_piece(new_piece);
-	}*/
+	}
 }
 
 //
@@ -126,8 +126,12 @@ void Board::show() { // Show the board
 //
 
 void Board::move(Player player) { // Move a piece on the board
+	
 	std::cout << player.get_player_name() << " you are the " << player.get_player_colour() << " player" << std::endl;
+	
+	// First check if the king is in check 
 	is_king_in_check();
+
 	bool successful_move = false;
 	// Start position
 	int x_i = 0;
@@ -150,6 +154,11 @@ void Board::move(Player player) { // Move a piece on the board
 			std::string start_position;
 
 			Coord pos(start_position);
+			std::string moves = pos.get_input();
+			if (moves == "moves") {
+				//get_allowed_moves;
+				// Then ask the user to re_enter their piece position
+			}
 			x_i = pos.get_x();
 			y_i = pos.get_y();
 
@@ -187,6 +196,13 @@ void Board::move(Player player) { // Move a piece on the board
 			std::string end_position;
 
 			Coord final_pos(end_position);
+
+			std::string piece_moves = final_pos.get_input();
+			if (piece_moves == "moves") {
+				//get_allowed_piece_moves;
+				// Then ask the user to re_enter their final piece position
+			}
+
 			x_f = final_pos.get_x();
 			y_f = final_pos.get_y();
 
@@ -354,6 +370,7 @@ Piece* Board::check_path_2(int x_i, int y_i, int x_f, int y_f) {
 			if (test == true) {
 				// Find the piece here
 				bad_piece = board[pos][y_i]->get_piece();
+				return bad_piece;
 			}
 		}
 	}
@@ -367,6 +384,7 @@ Piece* Board::check_path_2(int x_i, int y_i, int x_f, int y_f) {
 			bool test = board[x_i][pos]->check_occupation();
 			if (test == true) {
 				bad_piece = board[x_i][pos]->get_piece();
+				return bad_piece;
 			}
 		}
 	}
@@ -383,14 +401,17 @@ Piece* Board::check_path_2(int x_i, int y_i, int x_f, int y_f) {
 				bool test = board[x_diag][y_diag]->check_occupation();
 				if (test == true) {
 					bad_piece = board[x_diag][y_diag]->get_piece();
+					return bad_piece;
 				}
 			}
 		}
 	}
 	else {
 		bad_piece = board[x_i][y_i]->get_piece();
+		return bad_piece;
 	}
-	return bad_piece;
+	return bad_piece = board[x_i][y_i]->get_piece();
+	std::cout << "Not in check" << std::endl;
 }
 
 //
@@ -401,8 +422,6 @@ void Board::is_king_in_check() {
 	// Get the colour of the king piece
 	// Get the location of the king piece
 	// Look for pieces of a different colour in the vertical, horizontal, diagonal paths
-	// Run a check path function
-	// Position holders for the king
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			// Look for the king pieces on the board
@@ -411,11 +430,33 @@ void Board::is_king_in_check() {
 				int x_king = board[i][j]->get_x();
 				int y_king = board[i][j]->get_y();
 				Piece* king_piece = board[i][j]->get_piece();
-				std::cout << board[i][j]->get_piece_colour() << " King position = " << x_king << "," << y_king << std::endl;
+				//std::cout << board[i][j]->get_piece_colour() << " King position = " << x_king << "," << y_king << std::endl;
 
 				// Initialising variables
 				Coord king_pos(x_king, y_king);
 				Piece* test_piece;
+
+				// First look for pawns in front of king
+				if (king_piece->get_colour() == "White") {
+					if (x_king - 1 >= 0 && y_king - 1 >= 0 && board[x_king - 1][y_king - 1]->get_piece() != nullptr && board[x_king - 1][y_king - 1]->get_piece_name() == "Pawn"
+						&& board[x_king - 1][y_king - 1]->get_piece_colour() == "Black") {
+						std::cout << "White King is in check by Black Pawn" << std::endl;
+					}
+					else if(x_king + 1 < 7 && y_king - 1 >= 0 && board[x_king + 1][y_king - 1]->get_piece() != nullptr && board[x_king + 1][y_king - 1]->get_piece_name() == "Pawn"
+						&& board[x_king + 1][y_king - 1]->get_piece_colour() == "Black"){
+						std::cout << "White King is in check by Black Pawn" << std::endl;
+					}
+				}
+				if (king_piece->get_colour() == "Black") {
+					if (x_king - 1 >= 0 && y_king + 1 < 8 && board[x_king - 1][y_king + 1]->get_piece() != nullptr && board[x_king - 1][y_king + 1]->get_piece_name() == "Pawn"
+						&& board[x_king - 1][y_king + 1]->get_piece_colour() == "White") {
+						std::cout << "Black King is in check by Black Pawn" << std::endl;
+					}
+					else if (x_king + 1 < 8 && y_king + 1 < 8 && board[x_king + 1][y_king + 1]->get_piece() != nullptr && board[x_king + 1][y_king + 1]->get_piece_name() == "Pawn"
+						&& board[x_king + 1][y_king + 1]->get_piece_colour() == "White") {
+						std::cout << "Black King is in check by Black Pawn" << std::endl;
+					}
+				}
 
 				// Now look in the horizontal and vertical directions
 				for (int i = 0; i < 2; i++) {
@@ -424,23 +465,24 @@ void Board::is_king_in_check() {
 					// If the path position is not clear find the piece at this position
 					// These return the position of the piece that is in the way 
 					test_piece = check_path_2(x_king, y_king, n, y_king);
-					std::cout << test_piece->get_name() << std::endl;
+					//std::cout << "Testing for stright piece (Horizontal) " << test_piece->get_name() << std::endl;
+					//std::cout << n << "," << y_king << std::endl;
 					// Horizontal check 
 					if (test_piece->get_colour() != king_piece->get_colour()) {
 						// If the colour of this piece is not the same as the kings colour
 
 						if (test_piece->get_name() == "Queen" || test_piece->get_name() == "Rook") {
-							std::cout << "King is in check by " << test_piece->get_name() << std::endl;
+							// If the piece is a rook or a queen 
+							std::cout << king_piece->get_colour() << " King is in check by " << test_piece->get_name() << std::endl;
 						}
 					}
-
-					// Vertical check (Issue here)
 					test_piece = check_path_2(x_king, y_king, x_king, n);
-					std::cout << test_piece->get_name() << std::endl;
+					//std::cout << "Testing for stright piece (Vertical) " << test_piece->get_name() << std::endl;
+					//std::cout << x_king << "," << n << std::endl;
 					if (test_piece->get_colour() != king_piece->get_colour()) {
 						// If the colour of this piece is not the same as the kings colour
 						if (test_piece->get_name() == "Queen" || test_piece->get_name() == "Rook") {
-							std::cout << "King is in check by " << test_piece->get_name() << std::endl;
+							std::cout << king_piece->get_colour() << " King is in check by " << test_piece->get_name() << std::endl;
 						}
 					}
 				}
@@ -451,6 +493,8 @@ void Board::is_king_in_check() {
 				int y_diag_min;
 				int x_diag_max;
 				int y_diag_max;
+
+				bool diag_check = false;
 
 				for (int i = 0; i < 8; i++) {
 
@@ -465,9 +509,10 @@ void Board::is_king_in_check() {
 						//std::cout << i <<  ": " << x_diag_min << ", " << y_diag_min << std::endl;
 						test_piece = check_path_2(x_king, y_king, x_diag_min, y_diag_min);
 						if (test_piece->get_colour() != king_piece->get_colour()) {
-							std::cout << "Agh 1: " << test_piece->get_name() << std::endl;
+							//std::cout << "Agh 1: " << test_piece->get_name() << std::endl;
 							if (test_piece->get_name() == "Queen" || test_piece->get_name() == "Bishop") {
-								std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								//std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								diag_check = true;
 							}
 						}
 					}
@@ -478,9 +523,10 @@ void Board::is_king_in_check() {
 						//std::cout << i << ": " << x_diag_max << ", " << y_diag_max << std::endl;
 						test_piece = check_path_2(x_king, y_king, x_diag_max, y_diag_max);
 						if (test_piece->get_colour() != king_piece->get_colour()) {
-							std::cout << "Agh 2: " << test_piece->get_name() << std::endl;
+							//std::cout << "Agh 2: " << test_piece->get_name() << std::endl;
 							if (test_piece->get_name() == "Queen" || test_piece->get_name() == "Bishop") {
-								std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								//std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								diag_check = true;
 							}
 						}
 					}
@@ -488,12 +534,13 @@ void Board::is_king_in_check() {
 					// Check plus x, minus y
 
 					if (x_diag_max >= 0 && x_diag_max < 8 && y_diag_min >= 0 && y_diag_min < 8) {
-						//std::cout << i << ": " << x_diag_max << ", " << y_diag_min << std::endl;
+					
 						test_piece = check_path_2(x_king, y_king, x_diag_max, y_diag_min);
 						if (test_piece->get_colour() != king_piece->get_colour()) {
-							std::cout << "Agh 2: " << test_piece->get_name() << std::endl;
+			
 							if (test_piece->get_name() == "Queen" || test_piece->get_name() == "Bishop") {
-								std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								//std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								diag_check = true;
 							}
 						}
 					}
@@ -504,14 +551,17 @@ void Board::is_king_in_check() {
 						//std::cout << i << ": " << x_diag_min << ", " << y_diag_max << std::endl;
 						test_piece = check_path_2(x_king, y_king, x_diag_min, y_diag_max);
 						if (test_piece->get_colour() != king_piece->get_colour()) {
-							std::cout << "Agh 2: " << test_piece->get_name() << std::endl;
+							//std::cout << "Agh 2: " << test_piece->get_name() << std::endl;
 							if (test_piece->get_name() == "Queen" || test_piece->get_name() == "Bishop") {
-								std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								//std::cout << "King is in check by a " << test_piece->get_name() << std::endl;
+								diag_check = true;
 							}
 						}
 					}
 				}
-
+				if (diag_check == true) {
+					std::cout << king_piece->get_colour() << " King is in check (diag) by a " << test_piece->get_name() << std::endl;
+				}
 				// Test for Knights
 				int x_knight;
 				int y_knight;
@@ -524,14 +574,15 @@ void Board::is_king_in_check() {
 						if (abs(i) == 1 && abs(j) == 2 && x_knight >= 0 && x_knight < 8 && y_knight >= 0 && y_knight < 8
 							|| abs(i) == 2 && abs(j) == 1 && x_knight >= 0 && x_knight < 8 && y_knight >= 0 && y_knight < 8) {
 
-							//std::cout << i << "," << j << ": " << x_knight << "," << y_knight << std::endl;
+							if (board[x_knight][y_knight]->get_piece() != nullptr) {
 
-							test_piece = check_path_2(x_king, y_king, x_knight, y_knight);
+								test_piece = board[x_knight][y_knight]->get_piece();
 
-							if (test_piece->get_colour() != king_piece->get_colour()) {
-								std::cout << "Agh 2: " << test_piece->get_name() << std::endl;
-								if (test_piece->get_name() == "Kight") {
-									std::cout << test_piece->get_name() << std::endl;
+								if (test_piece->get_colour() != king_piece->get_colour()) {
+									
+									if (test_piece->get_name() == "Knight") {
+										std::cout << king_piece->get_colour() << " King is in check (diag) by a " << test_piece->get_name() << std::endl;
+									}
 								}
 							}
 						}
@@ -541,3 +592,5 @@ void Board::is_king_in_check() {
 		}
 	}
 }
+
+// ############################ Possible Moves for a piece ##############################################

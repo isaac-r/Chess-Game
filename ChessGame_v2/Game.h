@@ -10,6 +10,6 @@ public:
 	Game() {};
 	Game(Player white, Player black, Board game_board);
 	~Game() {}
-	bool is_game_over(Board board);
+	bool is_game_over(Player player_1, Player player_2, Board board);
 };
 #endif

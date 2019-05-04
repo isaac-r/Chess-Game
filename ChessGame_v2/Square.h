@@ -14,7 +14,7 @@ class Square {
 public:
 	int x; int y;
 	Piece *piece_name;
-	Square() {};
+	Square() { piece_name = nullptr; }
 	Square(int X, int Y); // NOTE: Create a blank square if there is no piece
 	~Square() {};
 	// Access function

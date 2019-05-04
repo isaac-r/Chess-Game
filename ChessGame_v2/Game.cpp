@@ -22,30 +22,22 @@ Game::Game(Player player_1, Player player_2, Board game_board) {
 
 	while (game_won == false) {
 
-		bool test = is_game_over(board);
+		bool test = is_game_over(player_1, player_2, board);
+		game_won = test;
 
 		board.move(player_1);
 		board.show();
 
-		test = is_game_over(board); // This will become is king in check function
+		test = is_game_over(player_1, player_2, board); // This will become is king in check function
+		game_won = test;
 
 		board.move(player_2);
 		board.show();
 
-		if (test == true) {
-			std::cout << "Winner winner chicken dinner" << std::endl;
-			game_won = true;
-			exit(1);
-		}
-
-		else { game_won = false; }
-
-
-
 	}
 }
 
-bool Game::is_game_over(Board board) {
+bool Game::is_game_over(Player player_1, Player player_2, Board board) {
 	int counter = 0; // Check if king is in check
 	std::string King_Array[2];
 	for (int i = 0; i < 8; i++) {
@@ -64,10 +56,14 @@ bool Game::is_game_over(Board board) {
 	}
 	else { 
 		if (King_Array[0] == "White") {
+			std::cout << "Winner winner chicken dinner" << std::endl;
 			std::cout << player_1.get_player_name() << " is the winner!" << std::endl;
+			exit(1);
 		}
 		else {
+			std::cout << "Winner winner chicken dinner" << std::endl;
 			std::cout << player_2.get_player_name() << " is the winner!" << std::endl;
+			exit(1);
 		}
 		return true; }
 }

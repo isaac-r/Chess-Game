@@ -14,11 +14,14 @@ class Board {
 public:
 	// Create the board and assign zero to all values on it
 	Square *board[8][8]; // 2D Array for the board points to a square
+	Square *Empty;
 	Board();
 	~Board() { std::cout << "Board destructor called" << std::endl; }
 	// Define functions for the board class
 	void create();
-	Square &operator()(int m, int n) { return *board[m][n]; }
+	Square &operator()(int m, int n) { if (m >= 0 && m < 8 && n >= 0 && n < 8) { return *board[m][n]; }
+	else { return *Empty; }
+	}
 	void show();
 	void move(Player player);
 	bool check_path(int x_i, int y_i, int x_f, int y_f);

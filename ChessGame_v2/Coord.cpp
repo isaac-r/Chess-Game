@@ -7,6 +7,7 @@ Coord::Coord(std::string position) {
 	// Check the position is within the board limits
 	int x_int = -1;
 	int y_int = -1;
+	in_position = position;
 
 	do {
 		std::cin >> position;
@@ -37,6 +38,17 @@ Coord::Coord(std::string position) {
 		else if (x_input == tolower('H')) {
 			x_int = 7;
 		}
+		else if (position == "moves") {
+			// Show the moves to the player for the piece on the selected square 
+			std::cout << "Asking for moves" << std::endl;
+			// Need to check this in the range checker
+			//exit(1);
+		}
+		else if (position == "quit") {
+			// Show the moves to the player for the piece on the selected square 
+			std::cout << "You gave up?!?" << std::endl;
+			exit(1);
+		}
 		else {
 			x_int = -1;
 		}
@@ -44,16 +56,17 @@ Coord::Coord(std::string position) {
 		y_int = y_input - '0' - 1;
 
 		if (x_int < 0 || x_int > 7 || y_int < 0 || y_int > 7) {
-			std::cout << "Piece is out of range please try again: " << std::endl;
+			if (position != "moves") {
+				std::cout << "Piece is out of range please try again: " << std::endl;
+			}
 		}
 
-	} while (x_int < 0 || x_int > 7 || y_int < 0 || y_int > 7);
+	} while (x_int < 0 && position != "moves" || x_int > 7 && position != "moves" || 
+		y_int < 0 && position != "moves" || y_int > 7 && position != "moves");
 
 	x = x_int;
 	y = y_int;
 
-	//std::cout << "Test x: " << x_int << std::endl;
-	//std::cout << "Test y: " << y_int << std::endl;
 }
 
 bool Coord::operator!=(const Coord &position) {
